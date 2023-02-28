@@ -1,4 +1,4 @@
-import type { LoaderArgs, LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { search } from "~/tmdb-client";
@@ -45,14 +45,14 @@ export default function Index() {
         <Link
           to={`?query=${query}&page=${previousPage}`}
           prefetch={"render"}
-          className={linkStyle + (hasPrevious ? "" : " pointer-events-none")}
+          className={linkStyle + (hasPrevious ? "" : " hidden")}
         >
           Previous
         </Link>
         <Link
           to={`?query=${query}&page=${nextPage}`}
           prefetch={"render"}
-          className={linkStyle + (hasNext ? "" : " pointer-events-none")}
+          className={linkStyle + (hasNext ? "" : " hidden")}
         >
           Next
         </Link>
