@@ -4,11 +4,11 @@
   "scripts": {
     "build": "npm run build:css && remix build",
     "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
-    "deploy": "wrangler publish",
+    "dev": "run-p \"dev:*\"",
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "dev:remix": "remix watch",
     "dev:miniflare": "cross-env NODE_ENV=development miniflare ./build/index.js --watch",
-    "dev": "run-p \"dev:*\"",
+    "deploy": "wrangler publish",
     "start": "cross-env NODE_ENV=production miniflare ./build/index.js"
   },
   "dependencies": {
