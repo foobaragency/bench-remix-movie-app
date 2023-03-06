@@ -77,9 +77,18 @@ export async function getMovie(id: string) {
     `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
   );
 
+  const { cast, crew } = await credits.json<MovieCredits>();
+
   return {
-    movie: await movieDetails.json<Movie>(),
-    cast: (await credits.json<MovieCredits>()).cast,
+    movie: await movieDetails.json<
+      Movie & {
+        genres: { id: number; name: string }[];
+        runtime: number;
+        tagline: string;
+      }
+    >(),
+    cast,
+    crew,
     similar: (await similarMovies.json<{ results: Movie[] }>()).results,
   };
 }
