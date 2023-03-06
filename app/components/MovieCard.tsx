@@ -18,6 +18,7 @@ export default function Index({
         // className="mx-auto rounded-xl shadow-md  shadow-slate-400 md:h-auto md:w-48"
         src={`${IMAGE_BASE_URL}/w${imageWidth}/${movie.poster_path}`}
         alt={movie.title}
+        width={imageWidth}
       />
       <div className="p-1.5">
         <figcaption className="text-slate-900 dark:text-slate-700">
