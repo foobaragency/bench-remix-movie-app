@@ -12,7 +12,7 @@ export default function Index({
   imageWidth: ImageWidth;
 }) {
   return (
-    <Link to={`/people/${movie.id}`}>
+    <Link to={`/movies/${movie.id}`}>
       <figure className="mx-auto p-8 md:p-0">
         <img
           className="mx-auto rounded-xl shadow-md  shadow-slate-400 md:h-auto"
