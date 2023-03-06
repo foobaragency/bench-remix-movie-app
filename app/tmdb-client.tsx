@@ -1,4 +1,4 @@
-const API_KEY = "061b5b5397826fffc37bcaad1cc6814f";
+import { API_KEY } from "./config";
 
 export interface Movie {
   id: number;
