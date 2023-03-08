@@ -7,6 +7,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "@remix-run/react";
 import styles from "./styles/app.css";
 
@@ -21,6 +22,20 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
+  const navigation = useNavigation();
+  let isNormalLoad =
+    navigation.state === "loading" && navigation.formData == null;
+
+  if (
+    typeof window === "object" &&
+    //@ts-expect-error
+    document?.startViewTransition &&
+    isNormalLoad
+  ) {
+    //@ts-expect-error
+    document.startViewTransition();
+  }
+
   return (
     <html lang="en">
       <head>
