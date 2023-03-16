@@ -1,4 +1,5 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
+import { Root, Viewport, Scrollbar, Thumb } from "@radix-ui/react-scroll-area";
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { getMovie } from "~/tmdb-client";
@@ -79,18 +80,25 @@ export default function Index() {
               </a>
             </span>
             <h2 className="mt-4 text-2xl font-medium text-white">Cast</h2>
-            <div className="flex overflow-x-auto [&>*]:mr-4">
-              {cast.map((person) => (
-                <Person key={person.id} person={person} />
-              ))}
-              <Link
-                to={`movies/${id}/credits`}
-                className="mx-3 w-20 shrink-0 self-center text-white
+            <Root>
+              <Viewport>
+                <div className="flex overflow-x-auto [&>*]:mr-4">
+                  {cast.map((person) => (
+                    <Person key={person.id} person={person} />
+                  ))}
+                  <Link
+                    to={`movies/${id}/credits`}
+                    className="mx-3 w-20 shrink-0 self-center text-white
           hover:underline"
-              >
-                See crew &rarr;
-              </Link>
-            </div>
+                  >
+                    See crew &rarr;
+                  </Link>
+                </div>
+              </Viewport>
+              <Scrollbar className="bg-transparent" orientation="horizontal">
+                <Thumb className="w-4 rounded-md bg-gray-300 p-1" />
+              </Scrollbar>
+            </Root>
           </div>
         </div>
       </div>
