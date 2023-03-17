@@ -87,7 +87,7 @@ export default function Index() {
                     <Person key={person.id} person={person} />
                   ))}
                   <Link
-                    to={`movies/${id}/credits`}
+                    to="credits"
                     className="mx-3 w-20 shrink-0 self-center text-white
           hover:underline"
                   >
