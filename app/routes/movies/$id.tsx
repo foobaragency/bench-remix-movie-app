@@ -21,7 +21,6 @@ export default function Index() {
   const {
     movie: {
       title,
-      id,
       tagline,
       poster_path,
       backdrop_path,
@@ -72,12 +71,12 @@ export default function Index() {
               Directed by
             </h2>
             <span>
-              <a
-                href="/person/{director?.id}"
+              <Link
+                to={`/person/${director?.id}`}
                 className="text-white hover:underline"
               >
                 {director?.name || "Unknown"}
-              </a>
+              </Link>
             </span>
             <h2 className="mt-4 text-2xl font-medium text-white">Cast</h2>
             <Root>

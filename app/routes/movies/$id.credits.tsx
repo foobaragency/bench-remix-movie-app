@@ -1,6 +1,6 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getMovieCredits } from "~/tmdb-client";
 import Person from "~/components/Person";
 import { IMAGE_BASE_URL } from "~/config";
@@ -20,7 +20,6 @@ export default function Index() {
     cast,
     crew,
   } = useLoaderData<typeof loader>();
-  const navigate = useNavigate();
 
   return (
     <>
