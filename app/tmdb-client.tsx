@@ -92,3 +92,25 @@ export async function getMovie(id: string) {
     similar: (await similarMovies.json<{ results: Movie[] }>()).results,
   };
 }
+
+export async function getMovieCredits(id: string) {
+  const movieDetails = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+  );
+
+  const credits = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
+  );
+
+  const { cast, crew } = await credits.json<MovieCredits>();
+
+  return {
+    movie: await movieDetails.json<Movie>(),
+    cast,
+    crew: crew.reduce((acc, cur) => {
+      acc[cur.job] = acc[cur.job] || [];
+      acc[cur.job].push(cur);
+      return acc;
+    }, {} as Record<string, CrewMember[]>),
+  };
+}
