@@ -69,15 +69,15 @@ export async function getMovie(id: string) {
     `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
   );
 
-  const similarMovies = await fetch(
-    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`
-  );
-
   const credits = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
   );
 
   const { cast, crew } = await credits.json<MovieCredits>();
+
+  const similarMoviesPromise = fetch(
+    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`
+  );
 
   return {
     movie: await movieDetails.json<
@@ -89,7 +89,9 @@ export async function getMovie(id: string) {
     >(),
     cast,
     crew,
-    similar: (await similarMovies.json<{ results: Movie[] }>()).results,
+    similar: similarMoviesPromise
+      .then((response) => response.json<{ results: Movie[] }>())
+      .then((movies) => movies.results),
   };
 }
 
