@@ -1,20 +1,19 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { Root, Viewport, Scrollbar, Thumb } from "@radix-ui/react-scroll-area";
-import { json } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { defer } from "@remix-run/cloudflare";
+import { Await, Link, useLoaderData } from "@remix-run/react";
 import { getMovie } from "~/tmdb-client";
 import Category from "~/components/Category";
 import Person from "~/components/Person";
 import { IMAGE_BASE_URL } from "~/config";
+import { Suspense } from "react";
 
-export const loader = async ({ request, params }: LoaderArgs) => {
-  //TODO: use streams to defer & stream some parts of the data
+export const loader = async ({ params }: LoaderArgs) => {
   //TODO: handle case of missing movie (i.e 404)
   const id = params.id;
-  //TODO: better deal with missing params as error or 404 pages
   if (!id) throw new Error("ID is required");
 
-  return json(await getMovie(id));
+  return defer(await getMovie(id));
 };
 
 export default function Index() {
@@ -102,9 +101,18 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="p-12">
-        <Category movies={similar} header={"More like this 🔥"} />
-      </div>
+      <Suspense fallback={<p>Loading similar movies...</p>}>
+        <Await
+          resolve={similar}
+          errorElement={<p>Error loading similar movies!</p>}
+        >
+          {(similar) => (
+            <div className="p-12">
+              <Category movies={similar} header={"More like this 🔥"} />
+            </div>
+          )}
+        </Await>
+      </Suspense>
     </>
   );
 }
