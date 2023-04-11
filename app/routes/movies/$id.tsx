@@ -101,7 +101,9 @@ export default function Index() {
         </div>
       </div>
 
-      <Suspense fallback={<p>Loading similar movies...</p>}>
+      <Suspense
+        fallback={<p className="m-4 text-xl">Loading similar movies...</p>}
+      >
         <Await
           resolve={similar}
           errorElement={<p>Error loading similar movies!</p>}

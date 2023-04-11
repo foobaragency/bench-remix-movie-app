@@ -17,24 +17,36 @@ export interface Movie {
   vote_count: number;
 }
 
-export type CastMember = {
+export interface CastMember {
   id: number;
   character: string;
   name: string;
   profile_path: string;
-};
+}
 
-export type CrewMember = {
+export interface CrewMember {
   id: number;
   job: string;
   name: string;
   profile_path: string;
-};
+}
 
-export type MovieCredits = {
+export interface MovieCredits {
   cast: CastMember[];
   crew: CrewMember[];
-};
+}
+
+export interface Person {
+  id: number;
+  name: string;
+  profile_path: string;
+  also_known_as: string[];
+  known_for_department: string;
+  birthday: string;
+  place_of_birth: string;
+  deathday: string;
+  biography: string;
+}
 
 export async function getPopular() {
   const response = await fetch(
@@ -115,4 +127,22 @@ export async function getMovieCredits(id: string) {
       return acc;
     }, {} as Record<string, CrewMember[]>),
   };
+}
+
+export async function getPerson(id: string) {
+  const personInfoResponse = await fetch(
+    `https://api.themoviedb.org/3/person/${id}?api_key=${API_KEY}`
+  );
+
+  const creditsResponse = await fetch(
+    `https://api.themoviedb.org/3/person/${id}/combined_credits?api_key=${API_KEY}`
+  );
+
+  const { cast, crew } = await creditsResponse.json<{
+    cast: Movie[];
+    crew: Movie[];
+  }>();
+  const person = await personInfoResponse.json<Person>();
+
+  return { person, cast, crew };
 }
